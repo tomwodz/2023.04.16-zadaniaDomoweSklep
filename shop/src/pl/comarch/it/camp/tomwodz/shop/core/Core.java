@@ -9,35 +9,36 @@ public class Core {
         ProductRepository productsDatabase = new ProductRepository();
 
         while (true) {
-
             switch (GUI.showMenu()) {
                 case 1:
                     boolean runMenuUser = true;
                     String userRole = Authenticator.authenticate();
-                    while (runMenuUser) {
-                        switch (GUI.showMenuUser(userRole)) {
-                            case 1:
-                                productsDatabase.showProduct(userRole);
-                                break;
-                            case 2:
-                                System.out.println(productsDatabase.buyProducts(GUI.buyProduct()));
-                                break;
-                            case 3:
-                                runMenuUser = false;
-                                System.out.println("Correct logout!");
-                                break;
-                            case 4:
-                                if (userRole == "ADMIN") {
-                                    productsDatabase.exchangeProducts(GUI.exchangeProduct());
-                                }
-                                break;
-                            case 5:
-                                if (userRole == "ADMIN") {
-                                    Authenticator.showUser();
-                                    Authenticator.changeUserRole(GUI.readLoginChangeUser());
-                                }
-                                break;
-                            default:
+                    if(userRole == "ADMIN" || userRole == "USER") {
+                        while (runMenuUser) {
+                            switch (GUI.showMenuUser(userRole)) {
+                                case 1:
+                                    productsDatabase.showProduct(userRole);
+                                    break;
+                                case 2:
+                                    System.out.println(productsDatabase.buyProducts(GUI.buyProduct()));
+                                    break;
+                                case 3:
+                                    runMenuUser = false;
+                                    System.out.println("Correct logout!");
+                                    break;
+                                case 4:
+                                    if (userRole == "ADMIN") {
+                                        productsDatabase.exchangeProducts(GUI.exchangeProduct());
+                                    }
+                                    break;
+                                case 5:
+                                    if (userRole == "ADMIN") {
+                                        Authenticator.showUser();
+                                        Authenticator.changeUserRole(GUI.readLoginChangeUser());
+                                    }
+                                    break;
+                                default:
+                            }
                         }
                     }
                     break;

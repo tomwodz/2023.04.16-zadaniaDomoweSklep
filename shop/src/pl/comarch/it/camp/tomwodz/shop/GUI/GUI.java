@@ -12,7 +12,7 @@ public  class GUI {
     public static int showMenu(){
         for(Menu menu: EnumSet.range(Menu.HEADMENU1, Menu.HEADMENU4)){
             System.out.println(menu);}
-        return Integer.parseInt(scanner.nextLine());
+        return Integer.parseInt(scanner.nextLine().trim());
     }
 
     public static int showMenuUser(String userRole){
@@ -25,33 +25,33 @@ public  class GUI {
                     System.out.println(menu);
                 }
             }
-        return Integer.parseInt(scanner.nextLine());
+        return Integer.parseInt(scanner.nextLine().trim());
     }
 
     public static User readLoginAndPassword(){
         System.out.println("Please give your login: ");
-        String login = scanner.nextLine();
+        String login = scanner.nextLine().trim();
         System.out.println("Please give your password: ");
-        return new User(login, scanner.nextLine());
+        return new User(login, scanner.nextLine().trim());
     }
 
     public static User readLogin(){
         System.out.println("Please give your login: ");
-        return new User(scanner.nextLine());
+        return new User(scanner.nextLine().trim());
     }
     public static String savePassword(){
         System.out.println("Please give your password: ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public static String saveName(){
         System.out.println("Please give your name: ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public static String saveEmail(){
         System.out.println("Please give your e-mail: ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public static Product buyProduct(){

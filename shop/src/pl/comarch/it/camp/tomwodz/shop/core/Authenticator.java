@@ -13,9 +13,9 @@ public class Authenticator {
     private static final String seed = "uxU9xUQWQMbZQm6rmtHd";
 
     public static String authenticate() {
-        boolean run = true;
         int counter = 0;
         while (counter < 3) {
+
             User userFromGUI = GUI.readLoginAndPassword();
             User userFromDb = usersDataBase.findUserByLogin(userFromGUI.getLogin());
             if (userFromDb != null && userFromDb.getPassword().equals(DigestUtils.md5Hex(userFromGUI.getPassword() + seed))) {
@@ -24,7 +24,6 @@ public class Authenticator {
             }
             System.out.println("Incorrect login and password! Try again!");
             counter++;
-
         }
         return null;
     }
