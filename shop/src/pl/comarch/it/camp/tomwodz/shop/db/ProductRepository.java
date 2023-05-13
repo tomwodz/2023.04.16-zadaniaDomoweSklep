@@ -1,6 +1,5 @@
 package pl.comarch.it.camp.tomwodz.shop.db;
 
-import pl.comarch.it.camp.tomwodz.shop.model.User;
 import pl.comarch.it.camp.tomwodz.shop.product.*;
 
 import java.text.NumberFormat;
@@ -21,9 +20,9 @@ public class ProductRepository {
         return this.products.values();
     }
 
-    public  String buyProducts(Product product) {
+    public String buyProducts(Product product) {
         Product aProduct = this.products.get(product.getCode());
-            if (aProduct.getCode().equals(product.getCode())){
+            try{
                 if (product.getQuantity() <= aProduct.getQuantity()) {
                     aProduct.setQuantity(aProduct.getQuantity() - product.getQuantity());
                     System.out.println("Łaczna cena wynosi:");
@@ -39,12 +38,18 @@ public class ProductRepository {
                             .toString();
                 }
             }
-        return "Podano zly kod produktu";
+            catch (NullPointerException e){}
+            return "Podano zły kod produktu.";
     }
 
     public void exchangeProducts(Product product) {
-        Product aProduct = this.products.get(product.getCode());
-        aProduct.setQuantity(product.getQuantity());
+        try {
+            Product aProduct = this.products.get(product.getCode());
+            aProduct.setQuantity(product.getQuantity());
+        }
+        catch (NullPointerException e){
+            System.out.println("Podano zły kod produktu.");
+        }
     }
 
     public void showProduct(String userRole) {
