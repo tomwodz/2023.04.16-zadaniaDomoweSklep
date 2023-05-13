@@ -1,6 +1,8 @@
 package pl.comarch.it.camp.tomwodz.shop.model;
 
-public class User {
+import pl.comarch.it.camp.tomwodz.shop.product.Writable;
+
+public class User implements Writable {
     private String login;
     private String password;
     private String role;
@@ -18,10 +20,15 @@ public class User {
         this.available = available;
     }
 
+    public User(String[] vars) {
+        this(vars[0], vars[1], vars[2], vars[3], vars[4],  Boolean.parseBoolean(vars[5]));
+    }
     public User(String login, String password) {
         this.login = login;
         this.password = password;
     }
+
+
 
     public User(String login) {
         this.login = login;
@@ -80,14 +87,33 @@ public class User {
 
     @Override
     public String toString() {
-        return new StringBuilder().
-                append(getLogin()).
-                append(" ").
-                append(getRole()).
-                append("         ").
-                append(getName()).
-                append(" ").
-                append(getEmial()).
-                toString();
+        return new StringBuilder()
+                .append(getLogin())
+                .append(" ")
+                .append(getRole())
+                .append("         ")
+                .append(getName())
+                .append(" ")
+                .append(getEmial())
+                .toString();
+    }
+
+    @Override
+    public String toCSV() {
+        return new StringBuilder()
+                .append(getClass().getSimpleName())
+                .append(";")
+                .append(getLogin())
+                .append(";")
+                .append(getPassword())
+                .append(";")
+                .append(getRole())
+                .append(";")
+                .append(getName())
+                .append(";")
+                .append(getEmial())
+                .append(";")
+                .append(isAvailable())
+                .toString();
     }
 }

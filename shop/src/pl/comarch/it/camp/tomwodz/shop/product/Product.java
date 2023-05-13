@@ -1,34 +1,40 @@
 package pl.comarch.it.camp.tomwodz.shop.product;
 
-public class Product {
+import static java.lang.Double.parseDouble;
 
-    private int code;
+public class Product implements Writable{
+
+    private String code;
     private String name;
     private String category;
     private double pricePerItem;
     private int quantity;
 
-    public Product(int code, String name, String category, double pricePerItem, int quantity) {
+    public Product(String  code, String name, String category, double pricePerItem, int quantity) {
         this.code = code;
         this.name = name;
         this.category = category;
         this.pricePerItem = pricePerItem;
         this.quantity = quantity;
     }
+    public Product(String[] vars) {
+        this(vars[0], vars[1], vars[2],  Double.parseDouble(vars[3]), Integer.parseInt(vars[4]));
+    }
 
-    public Product(int code, int quantity) {
+   /* public Product(String code, int quantity) {
         this.name = name;
         this.quantity = quantity;
-    }
+    }*/
+
 
     public Product() {
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -71,11 +77,28 @@ public class Product {
                 .append(getCode())
                 .append(" Kat.: ")
                 .append(getCategory())
-                .append(" Nazwa: ")
+                .append(" Name: ")
                 .append(getName())
                 .append(" Cena PLN/szt: ")
                 .append(getPricePerItem())
                 .append(" Ilosc: ")
+                .append(getQuantity())
+                .toString();
+    }
+
+    @Override
+    public String toCSV() {
+        return new StringBuilder()
+                .append(getClass().getSimpleName())
+                .append(";")
+                .append(getCode())
+                .append(";")
+                .append(getCategory())
+                .append(";")
+                .append(getName())
+                .append(";")
+                .append(getPricePerItem())
+                .append(";")
                 .append(getQuantity())
                 .toString();
     }

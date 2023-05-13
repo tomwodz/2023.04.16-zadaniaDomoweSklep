@@ -2,45 +2,37 @@ package pl.comarch.it.camp.tomwodz.shop.db;
 
 import pl.comarch.it.camp.tomwodz.shop.model.User;
 
-import java.util.UUID;
+import java.util.*;
 
 public class UserRepository {
+    private Map<String, User> users = new HashMap<>();
 
-    private User[] users = new User[10];
+    private static final UserRepository instance = new UserRepository();
 
-    public UserRepository() {
-        this.users[0] = new User("admin", "76a0219bf06f2ebcb96a0334b4814e8c", "ADMIN", "Tomek", "twodzinski@op.pl", true);
-        this.users[1] = new User("Tomek", "76a0219bf06f2ebcb96a0334b4814e8c", "USER", "Tomek", "twodzinski@op.pl", true);
-        for(int i = 2; i <10; i ++){
-            this.users[i] = new User( "", "", "USER", "", "", false);
-        }
+    private UserRepository() {
+        /*this.users.put("admin", new User("admin", "76a0219bf06f2ebcb96a0334b4814e8c", "ADMIN", "Tomek", "twodzinski@op.pl", true));
+        this.users.put("Tomek", new User("Tomek", "76a0219bf06f2ebcb96a0334b4814e8c", "USER", "Tomek", "twodzinski@op.pl", true));*/
     }
 
-    public User[] getUser() {
-        return users;
+    public Collection<User> getUser() {
+        return this.users.values();
     }
 
     public User findUserByLogin(String login) {
-        for(User user : this.users){
-            if(login.equals(user.getLogin())){
-                return user;
-            }
-        }
-        return null;
+        return this.users.get(login);
     }
 
     public void createNewUser(User user) {
-        for(User aUser : this.users)
-            if (aUser.isAvailable() == false) {
-                aUser.setAvailable(true);
-                aUser.setLogin(user.getLogin());
-                aUser.setPassword(user.getPassword());
-                aUser.setName(user.getName());
-                aUser.setEmial(user.getEmial());
-                System.out.println("Success. Uzytkownik zostal utworzony.");
-                break;
-            }
+        this.users.put(user.getLogin(), new User(user.getLogin(), user.getPassword(), "USER", user.getName(), user.getEmial(), true));
+        System.out.println("Success. Uzytkownik zostal utworzony.");
     }
 
+    public void addUser(User user) {
+        this.users.put(user.getLogin(), user);
+    }
+
+    public static UserRepository getInstance(){
+        return instance;
+    }
 
 }

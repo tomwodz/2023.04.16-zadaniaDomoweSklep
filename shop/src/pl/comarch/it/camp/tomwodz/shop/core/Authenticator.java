@@ -9,14 +9,16 @@ import java.util.Random;
 
 public class Authenticator {
 
-    static private UserRepository usersDataBase = new UserRepository();
+    private static final Authenticator instance = new Authenticator();
+    private static final UserRepository usersDataBase = UserRepository.getInstance();
+
+    private Authenticator() {}
     private static final String seed = "uxU9xUQWQMbZQm6rmtHd";
 
-    public static String authenticate() {
+    public String authenticate() {
         int counter = 0;
         while (counter < 3) {
-
-            User userFromGUI = GUI.readLoginAndPassword();
+            User userFromGUI = GUI.getInstance().readLoginAndPassword();
             User userFromDb = usersDataBase.findUserByLogin(userFromGUI.getLogin());
             if (userFromDb != null && userFromDb.getPassword().equals(DigestUtils.md5Hex(userFromGUI.getPassword() + seed))) {
                 System.out.println("Correct login!");
@@ -28,16 +30,16 @@ public class Authenticator {
         return null;
     }
 
-    public static void registration() {
+    public void registration() {
         int counter =0;
         while (counter < 3) {
-            User userFromGUI = GUI.readLogin();
+            User userFromGUI = GUI.getInstance().readLogin();
             User userFromDb = usersDataBase.findUserByLogin(userFromGUI.getLogin());
             if (userFromDb == null) {
                 System.out.println("Podany login jest wolny.");
-                userFromGUI.setPassword(DigestUtils.md5Hex(GUI.savePassword() + seed));
-                userFromGUI.setName(GUI.saveName());
-                userFromGUI.setEmial(GUI.saveEmail());
+                userFromGUI.setPassword(DigestUtils.md5Hex(GUI.getInstance().savePassword() + seed));
+                userFromGUI.setName(GUI.getInstance().saveName());
+                userFromGUI.setEmial(GUI.getInstance().saveEmail());
                 usersDataBase.createNewUser(userFromGUI);
                break;
             } else {
@@ -47,14 +49,14 @@ public class Authenticator {
         }
     }
 
-    public static void showUser() {
+    public void showUser() {
         System.out.println("Login: / Role:");
         for (User aUser : usersDataBase.getUser()) {
             if (aUser.isAvailable() != false) System.out.println(aUser);
         }
     }
 
-    public static void changeUserRole(User user) {
+    public void changeUserRole(User user) {
         for (User aUser : usersDataBase.getUser())
             if (aUser.getLogin().equals(user.getLogin()) && aUser.isAvailable() == true) {
                 aUser.setRole(user.getRole());
@@ -62,4 +64,7 @@ public class Authenticator {
             }
     }
 
+    public static Authenticator getInstance(){
+        return instance;
+    }
 }
